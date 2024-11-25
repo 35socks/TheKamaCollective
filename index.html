@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>The Kama Collective</title>
+<!-- FLOCKING STUFF FROM NICK FROSST -->
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/application.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/canvas_init.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/vector.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boid.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/simulation.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boids.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/obstacle.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>html,body{margin:0;padding:0;overflow:hidden}#boids1{margin:0;padding:0;top:0;left:0;position:fixed;width:100%;border:0 dashed}</style>
+<script>window.addEventListener("resize",resizeCanvas);
+</script><canvas id=boids1 height=1680 width=1680></canvas>
+<style>
+@font-face {
+    font-family: 'KAMA';
+    src: url('/fonts/font.otf') format('opentype');
+}
+body {
+    font-family: 'KAMA';
+}
+</style>
+</head>
+<body>
+<div class="fixed inset-0 flex items-center justify-center">
+    <div class="bg-black text-white px-8 py-4">
+        <p class="text-4xl">the kama collective</p>
+    </div>
+</div>
+</body>
+</html>
