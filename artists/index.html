@@ -29,13 +29,17 @@ window.addEventListener("resize",resizeCanvas);
 </head>
 <body>
 <canvas id=boids1 height=1680 width=1680></canvas>
-<div class="fixed inset-0">
-    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <img src="/images/tkctrans.png" alt="The Kama Collective Logo" style="user-select: none; -webkit-user-select: none;" class="mb-4">
+<div class="fixed inset-0 flex items-center justify-center overflow-auto">
+    <div class="w-full max-w-7xl px-4">
+        <div class="flex space-x-8 whitespace-nowrap overflow-x-auto pb-4">
+            <img src="https://placehold.co/600x600" alt="Artist 1" class="h-96 w-96 rounded-lg object-cover">
+            <img src="https://placehold.co/600x600" alt="Artist 2" class="h-96 w-96 rounded-lg object-cover">
+            <img src="https://placehold.co/600x600" alt="Artist 3" class="h-96 w-96 rounded-lg object-cover">
+            <img src="https://placehold.co/600x600" alt="Artist 4" class="h-96 w-96 rounded-lg object-cover">
+            <img src="https://placehold.co/600x600" alt="Artist 5" class="h-96 w-96 rounded-lg object-cover">
+            <img src="https://placehold.co/600x600" alt="Artist 6" class="h-96 w-96 rounded-lg object-cover">
+        </div>
     </div>
-    <a href="artists" class="absolute text-black text-5xl font-light hover:scale-110 transition-transform duration-200" style="right: 60%; top: 35%;">ARTISTS</a>
-    <a href="about" class="absolute text-black text-6xl font-light hover:scale-110 transition-transform duration-200"  style="left: 45%; top: 70%;">ABOUT</a>
-    <a href="apply" class="absolute text-black text-4xl font-light hover:scale-110 transition-transform duration-200" style="left: 60%; top: 30%;">APPLY</a>
 </div>
 </body>
 </html>
