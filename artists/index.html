@@ -1,45 +1,301 @@
-<!doctype html>
-<html lang=en>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>The Kama Collective</title>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@800&display=swap');
-    body {
-        font-family: 'League Spartan', sans-serif;
-    }
-</style>
-<!-- FLOCKING STUFF FROM NICK FROSST -->
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/application.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/canvas_init.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/vector.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boid.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/simulation.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boids.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/obstacle.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-html,body{margin:0;padding:0;overflow:hidden}
-#boids1{margin:0;padding:0;top:0;left:0;position:fixed;width:100%;border:0 dashed}
-</style>
-<script>
-window.addEventListener("resize",resizeCanvas);
-</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>The Kama Collective</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@800&family=Montserrat:wght@400;600&display=swap');
+        body {
+            font-family: 'League Spartan', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #boids1 {
+            margin: 0;
+            padding: 0;
+            top: 0;
+            left: 0;
+            position: fixed;
+            width: 100%;
+            border: 0 dashed;
+        }
+        .logo-container {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+        .logo {
+            height: 80px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .logo:hover {
+            opacity: 0.8;
+        }
+        .artist-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .artist-scroll {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem;
+            width: max-content;
+            animation: scroll 60s linear infinite;
+            cursor: grab;
+            transition: animation-play-state 1s ease;
+        }
+        .artist-scroll:hover {
+            animation-play-state: paused;
+            transition: animation-play-state 2s ease;
+        }
+        .artist-scroll:active {
+            cursor: grabbing;
+        }
+        .artist-card {
+            flex: 0 0 auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .artist-card:hover {
+            transform: scale(1.05);
+        }
+        .artist-image {
+            height: 384px;
+            width: 384px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .modal-content h2 {
+            font-family: 'League Spartan', sans-serif;
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #666;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: #666;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #000;
+        }
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+    <!-- FLOCKING STUFF -->
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/application.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/canvas_init.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/vector.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boid.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/simulation.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/boids.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nickfrosst/nickfrosst.github.io/static/flock_dynamics/simulation/obstacle.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/c4f218aa74.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<canvas id=boids1 height=1680 width=1680></canvas>
-<div class="fixed inset-0 flex items-center justify-center overflow-auto">
-    <div class="w-full max-w-7xl px-4">
-        <div class="flex space-x-8 whitespace-nowrap overflow-x-auto pb-4">
-            <img src="https://placehold.co/600x600" alt="Artist 1" class="h-96 w-96 rounded-lg object-cover">
-            <img src="https://placehold.co/600x600" alt="Artist 2" class="h-96 w-96 rounded-lg object-cover">
-            <img src="https://placehold.co/600x600" alt="Artist 3" class="h-96 w-96 rounded-lg object-cover">
-            <img src="https://placehold.co/600x600" alt="Artist 4" class="h-96 w-96 rounded-lg object-cover">
-            <img src="https://placehold.co/600x600" alt="Artist 5" class="h-96 w-96 rounded-lg object-cover">
-            <img src="https://placehold.co/600x600" alt="Artist 6" class="h-96 w-96 rounded-lg object-cover">
+    <canvas id="boids1" height="1680" width="1680"></canvas>
+    
+    <a href="/" class="logo-container">
+        <img src="https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/tkctrans.png" alt="The Kama Collective" class="logo">
+    </a>
+
+    <div class="artist-container">
+        <div class="artist-scroll" id="artistScroll"></div>
+    </div>
+
+    <div class="modal" id="artistModal">
+        <div class="modal-content">
+            <button class="close-button">&times;</button>
+            <h2 id="modalArtistName" class="text-2xl font-bold mb-4"></h2>
+            <p id="modalArtistDescription" class="text-lg mb-4"></p>
+            <div class="social-links">
+                <a id="modalInstagram" href="#" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a id="modalSpotify" href="#" target="_blank">
+                    <i class="fab fa-spotify"></i>
+                </a>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        const artists = [
+            {
+                id: 1,
+                name: "DoMorr",
+                image: "https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/DoMorr_ProfileImage1_112924.jpg",
+                description: "DoMorr, real name William Morr, is an alternative/indie musician from northeast Alabama. Inspired by AJR, CG5, and Miracle Musical, Morr started making music in 2022. Morr is the pioneer of a new genre, “Human Pop”, where “not being on-pitch is kinda the point”. Out now is CYCLES, Morr’s sophomore album.",
+                instagram: "domorrstudios",
+                spotify: "6h62GY3Pge1LOZfHUCqg1H"
+            },
+            {
+                id: 2,
+                name: "Jell Kama",
+                image: "https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/JellKama_ProfileImage1_112924.jpg",
+                description: "Jell Kama, a band formed by it's founders Jake Roberts and Nicholas Mallay is a hip-hop mixed with alt-pop Band that was originally titled 'Strumming Trumpets'. The band changed names when they found the old name to be cringe, and unable to stick to it's fans. Jake and Nick found each other at a RV Park because of a mutual friend Isaac. They instantly bonded after finding out they both had a love for music. After meeting Nick Jake knew that he'd wanna do music full time, which is what he started doing. Nick was originally never a part of the 'Strumming Trumpets', just a helper. Eventually Jake let Nick into the band, and that's when they started GOING CRAZY. In the month of September they both worked on a promotional video for their first single 'Music My Way', which was eventually released on September 29th. The single has since been deleted. Ever since they've worked to be better at music. Jake and Nick are both producers, and vocalists. Since the deletion of 'Music My Way' they've been working on songs, and project ideas to kickstart their career as 'Jell Kama'.",
+                spotify: "2l05C5TtZQ3E6iR8vGoFwp"
+            },
+            {
+                id: 3,
+                name: "Meggy The Artist",
+                image: "https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/MeggyTheArtist_ProfileImage1_112924.png",
+                description: "There is no bio here yet.",
+            },
+            {
+                id: 4,
+                name: "Vinson Fong",
+                image: "https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/VinsonFong_ProfileImage1_112924.png",
+                description: "Vinson Fong is a dynamic music producer and artist from Singapore, renowned for his innovative approach to pop, alternative, and theatrical-style of music. With a deep passion for creating emotionally theatrically rich tracks, Vinson has released well-received singles like 'Just An Idiot' and 'ABDUCTPHORIA.' Explore his music and follow his journey on various platforms to stay updated with his latest releases and projects.",
+                instagram: "vinsonfong",
+                spotify: "4WlJXbckeZbsRBa6W3A0vr"
+            }
+            ,
+            {
+                id: 5,
+                name: "Sky Dreamers",
+                image: "https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/SkyDreamers_ProfileImage1_112924.jpg",
+                description: "Sky Dreamers is a band containing 3 members, Jayden Emmett, Cameron Bell, and Matt Pec.",
+                instagram: "skydreamershq",
+                spotify: "2zEsSg1Kc443cvTfC13aU5"
+            }
+        ];
+
+        // Create duplicated artist cards for infinite scroll
+        const artistScroll = document.getElementById('artistScroll');
+        const createArtistCards = () => {
+            // Create two sets of cards for smooth infinite scroll
+            const allCards = [...artists, ...artists].map(artist => `
+                <div class="artist-card" data-artist-id="${artist.id}">
+                    <img src="${artist.image}" alt="${artist.name}" class="artist-image">
+                </div>
+            `).join('');
+            artistScroll.innerHTML = allCards;
+        };
+        createArtistCards();
+
+        // Drag to scroll functionality
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        artistScroll.addEventListener('mousedown', (e) => {
+            isDown = true;
+            artistScroll.style.animationPlayState = 'paused';
+            startX = e.pageX - artistScroll.offsetLeft;
+            scrollLeft = artistScroll.scrollLeft;
+        });
+
+        artistScroll.addEventListener('mouseleave', () => {
+            isDown = false;
+            artistScroll.style.animationPlayState = 'running';
+        });
+
+        artistScroll.addEventListener('mouseup', () => {
+            isDown = false;
+            artistScroll.style.animationPlayState = 'running';
+        });
+
+        artistScroll.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - artistScroll.offsetLeft;
+            const walk = (x - startX) * 2;
+            artistScroll.scrollLeft = scrollLeft - walk;
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('artistModal');
+        const closeButton = modal.querySelector('.close-button');
+        
+        const openModal = (artist) => {
+            document.getElementById('modalArtistName').textContent = artist.name;
+            document.getElementById('modalArtistDescription').textContent = artist.description;
+            const instagramLink = document.getElementById('modalInstagram');
+            const spotifyLink = document.getElementById('modalSpotify');
+            
+            if (artist.instagram) {
+                instagramLink.href = `https://instagram.com/${artist.instagram}`;
+                instagramLink.style.display = 'inline';
+            } else {
+                instagramLink.style.display = 'none';
+            }
+
+            if (artist.spotify) {
+                spotifyLink.href = `https://open.spotify.com/artist/${artist.spotify}`;
+                spotifyLink.style.display = 'inline';
+            } else {
+                spotifyLink.style.display = 'none';
+            }
+            modal.style.display = 'flex';
+        };
+
+        const closeModal = () => {
+            modal.style.display = 'none';
+        };
+
+        // Event listeners
+        document.querySelectorAll('.artist-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const artist = artists.find(a => a.id === parseInt(card.dataset.artistId));
+                openModal(artist);
+            });
+        });
+
+        closeButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Handle window resize for canvas
+        window.addEventListener("resize", resizeCanvas);
+    </script>
 </body>
 </html>
