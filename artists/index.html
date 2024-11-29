@@ -49,7 +49,7 @@
             gap: 2rem;
             padding: 1rem;
             width: max-content;
-            animation: scroll 20s linear infinite;
+            animation: scroll 30s linear infinite;
             cursor: grab;
             transition: animation-play-state 1s ease;
         }
@@ -123,8 +123,12 @@
             0% {
                 transform: translateX(0);
             }
+            50% {
+                transform: translateX(-30%);
+            }
+
             100% {
-                transform: translateX(-50%);
+                transform: translateX(0);
             }
         }
     </style>
@@ -141,7 +145,6 @@
 </head>
 <body>
     <canvas id="boids1" height="1680" width="1680"></canvas>
-    
     <a href="/" class="logo-container">
         <img src="https://d2zqcjam4y6xza.cloudfront.net/thekamacollective/tkctrans.png" alt="The Kama Collective" class="logo">
     </a>
@@ -217,20 +220,17 @@
             }
         ];
 
-        // Create duplicated artist cards for infinite scroll
         const artistScroll = document.getElementById('artistScroll');
         const createArtistCards = () => {
-            // Create two sets of cards for smooth infinite scroll
-            const allCards = [...artists, ...artists].map(artist => `
+            const allCards = artists.map(artist => `
                 <div class="artist-card" data-artist-id="${artist.id}">
                     <img src="${artist.image}" alt="${artist.name}" class="artist-image">
                 </div>
             `).join('');
-            artistScroll.innerHTML = allCards;
+            artistScroll.innerHTML = allCards; // Duplicate cards for seamless scroll
         };
         createArtistCards();
 
-        // Drag to scroll functionality
         let isDown = false;
         let startX;
         let scrollLeft;
@@ -260,16 +260,21 @@
             artistScroll.scrollLeft = scrollLeft - walk;
         });
 
-        // Modal functionality
+        artistScroll.addEventListener('scroll', () => {
+            if (artistScroll.scrollLeft >= artistScroll.scrollWidth / 2) {
+                artistScroll.scrollLeft = 0;
+            }
+        });
+
         const modal = document.getElementById('artistModal');
         const closeButton = modal.querySelector('.close-button');
-        
+
         const openModal = (artist) => {
             document.getElementById('modalArtistName').textContent = artist.name;
             document.getElementById('modalArtistDescription').textContent = artist.description;
             const instagramLink = document.getElementById('modalInstagram');
             const spotifyLink = document.getElementById('modalSpotify');
-            
+
             if (artist.instagram) {
                 instagramLink.href = `https://instagram.com/${artist.instagram}`;
                 instagramLink.style.display = 'inline';
@@ -290,7 +295,6 @@
             modal.style.display = 'none';
         };
 
-        // Event listeners
         document.querySelectorAll('.artist-card').forEach(card => {
             card.addEventListener('click', () => {
                 const artist = artists.find(a => a.id === parseInt(card.dataset.artistId));
@@ -303,7 +307,6 @@
             if (e.target === modal) closeModal();
         });
 
-        // Handle window resize for canvas
         window.addEventListener("resize", resizeCanvas);
     </script>
 </body>
