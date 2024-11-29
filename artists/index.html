@@ -44,6 +44,7 @@
             justify-content: center;
             overflow: hidden;
         }
+
         .artist-scroll {
             display: flex;
             gap: 2rem;
@@ -57,6 +58,23 @@
             animation-play-state: paused;
             transition: animation-play-state 2s ease;
         }
+
+                @media (max-width: 768px) {
+            .artist-scroll {
+                animation: scroll 20s linear infinite;
+                padding: 0.5rem;
+                gap: 1rem;
+            }
+            .artist-image {
+                height: 200px;
+                width: 200px;
+                border-radius: 0.25rem;
+            }
+            .artist-card {
+                transform-origin: center;
+            }
+        }
+
         .artist-scroll:active {
             cursor: grabbing;
         }
